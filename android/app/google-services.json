@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "295678864449",
+    "project_id": "swift-chat-72c78",
+    "storage_bucket": "swift-chat-72c78.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:295678864449:android:ea4c840f047a95f5a02ac0",
+        "android_client_info": {
+          "package_name": "com.ronbarzilay.swift_chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "295678864449-k96qqosq0ig8rrjt68n3m7ik7113c6f5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0F3Xn770E7LixO7O5dHHiKO-Z6rl2w7w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "295678864449-k96qqosq0ig8rrjt68n3m7ik7113c6f5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
