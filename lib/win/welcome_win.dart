@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../components/rounded_button.dart';
@@ -5,7 +6,7 @@ import '../win/registration_win.dart';
 import 'login_win.dart';
 
 class WelcomeWindow extends StatefulWidget {
-  static String id = 'welcome_win';
+  static String id = '/';
   const WelcomeWindow({Key? key}) : super(key: key);
 
   @override
@@ -43,58 +44,75 @@ class _WelcomeWindowState extends State<WelcomeWindow>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Hero(
-                    tag: 'logo',
-                    child: Container(
-                      height: animation.value * 100,
-                      child: Image.asset('assets/images/logo.png'),
+    return Builder(
+      builder: (BuildContext context) {
+        return DefaultTextStyle(
+          style: CupertinoTheme.of(context).textTheme.textStyle,
+          child: CupertinoPageScaffold(
+            child: NestedScrollView(
+              headerSliverBuilder:
+                  (BuildContext context, bool innerBoxIsScrolled) {
+                return [
+                  const CupertinoSliverNavigationBar(
+                    largeTitle: const Text('Let\'s Begin'),
+                  )
+                ];
+              },
+              body: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Hero(
+                            tag: 'logo',
+                            child: Container(
+                              height: animation.value * 100,
+                              child: Image.asset('assets/images/logo.png'),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            'Swift \nChat',
+                            style: TextStyle(
+                                fontSize: 40.0 * animation.value,
+                                fontWeight: FontWeight.w900,
+                                color: Colors.amber),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
+                    const SizedBox(
+                      height: 48.0,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      child: RoundedButton(
+                          title: 'Log In',
+                          color: Colors.lightBlueAccent,
+                          onPress: () =>
+                              Navigator.pushNamed(context, LoginWindow.id)),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      child: RoundedButton(
+                        title: 'Register',
+                        color: Colors.blueAccent,
+                        onPress: () =>
+                            Navigator.pushNamed(context, RegistrationWindow.id),
+                      ),
+                    ),
+                  ],
                 ),
-                Expanded(
-                  child: Text(
-                    'Swift \nChat',
-                    style: TextStyle(
-                        fontSize: 40.0 * animation.value,
-                        fontWeight: FontWeight.w900,
-                        color: Colors.amber),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 48.0,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0),
-              child: RoundedButton(
-                  title: 'Log In',
-                  color: Colors.lightBlueAccent,
-                  onPress: () => Navigator.pushNamed(context, LoginWindow.id)),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0),
-              child: RoundedButton(
-                title: 'Register',
-                color: Colors.blueAccent,
-                onPress: () =>
-                    Navigator.pushNamed(context, RegistrationWindow.id),
               ),
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }
