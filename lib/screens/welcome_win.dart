@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../components/rounded_button.dart';
+import '../main.dart';
 import '../screens/registration_win.dart';
 import 'login_win.dart';
 
@@ -59,7 +60,7 @@ class _WelcomeWindowState extends State<WelcomeWindow>
                 ];
               },
               body: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                padding: const EdgeInsets.symmetric(horizontal: 6.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -68,42 +69,49 @@ class _WelcomeWindowState extends State<WelcomeWindow>
                       children: [
                         Expanded(
                           child: Hero(
+                            transitionOnUserGestures: true,
                             tag: 'logo',
                             child: Container(
-                              height: animation.value * 100,
+                              height: animation.value * 400,
                               child: Image.asset('assets/images/logo.png'),
                             ),
                           ),
                         ),
                         Expanded(
                           child: Text(
-                            'Swift \nChat',
+                            'Swift Chat',
+                            textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontSize: 40.0 * animation.value,
+                                fontSize: 45.0 * animation.value,
                                 fontWeight: FontWeight.w900,
-                                color: Colors.amber),
+                                color: Colors.deepPurpleAccent),
                           ),
                         ),
                       ],
                     ),
                     const SizedBox(
-                      height: 48.0,
+                      height: 2.0,
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       child: RoundedButton(
-                          title: 'Log In',
-                          color: Colors.lightBlueAccent,
-                          onPress: () =>
-                              Navigator.pushNamed(context, LoginWindow.id)),
+                        title: 'Log In',
+                        color: Colors.lightBlueAccent,
+                        onPress: () {
+                          Navigator.pushNamed(context, LoginWindow.id);
+                          startVibration(VibrationTypes.lightImpact);
+                        },
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       child: RoundedButton(
                         title: 'Register',
                         color: Colors.blueAccent,
-                        onPress: () =>
-                            Navigator.pushNamed(context, RegistrationWindow.id),
+                        onPress: () {
+                          Navigator.pushNamed(context, RegistrationWindow.id);
+                          startVibration(VibrationTypes.lightImpact);
+                        },
                       ),
                     ),
                   ],

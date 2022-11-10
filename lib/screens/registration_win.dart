@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import '../components/rounded_button.dart';
+import '../main.dart';
 import '../screens/chat_win.dart';
 import '../utils/constants.dart';
 
@@ -36,6 +37,7 @@ class _RegistrationWindowState extends State<RegistrationWindow> {
               ];
             },
             body: CupertinoPageScaffold(
+              resizeToAvoidBottomInset: false,
               child: ModalProgressHUD(
                 color: Colors.black,
                 dismissible: true,
@@ -104,6 +106,7 @@ class _RegistrationWindowState extends State<RegistrationWindow> {
                             onPress: () async {
                               setState(() {
                                 showSpinner = true;
+                                startVibration(VibrationTypes.mediumImpact);
                               });
 
                               // Here we create user with _auth object.

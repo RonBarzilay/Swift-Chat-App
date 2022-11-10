@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:swift_chat/screens/welcome_win.dart';
 
 import '../components/message_stream.dart';
+import '../main.dart';
 import '../utils/constants.dart';
 
 class ChatWindow extends StatefulWidget {
@@ -53,7 +54,9 @@ class _ChatWindowState extends State<ChatWindow> {
         return DefaultTextStyle(
           style: CupertinoTheme.of(context).textTheme.textStyle,
           child: CupertinoPageScaffold(
+            resizeToAvoidBottomInset: false,
             child: NestedScrollView(
+              scrollDirection: Axis.vertical,
               headerSliverBuilder:
                   (BuildContext context, bool innerBoxIsScrolled) {
                 return [
@@ -101,6 +104,7 @@ class _ChatWindowState extends State<ChatWindow> {
                             TextButton(
                               onPressed: () {
                                 messageTextController.clear();
+                                startVibration(VibrationTypes.lightImpact);
                                 _firestore.collection('messages').add(
                                   {
                                     'text': messageText,

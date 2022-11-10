@@ -1,15 +1,36 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:swift_chat/screens/chat_win.dart';
 import 'package:swift_chat/screens/login_win.dart';
 import 'package:swift_chat/screens/registration_win.dart';
 import 'package:swift_chat/screens/welcome_win.dart';
 
+enum VibrationTypes { lightImpact, mediumImpact, heavyImpact }
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const SwiftChat());
+}
+
+void startVibration(VibrationTypes type) {
+  try {
+    if (type == VibrationTypes.lightImpact) {
+      HapticFeedback.lightImpact();
+    } else if (type == VibrationTypes.mediumImpact) {
+      HapticFeedback.mediumImpact();
+    } else {
+      HapticFeedback.heavyImpact();
+    }
+  } on Exception catch (exception) {
+    print(
+        "This Device Has No Support For Vibration"); // only executed if error is of type Exception
+  } catch (error) {
+    print("error");
+    // executed for errors of all types other than Exception
+  }
 }
 
 class SwiftChat extends StatelessWidget {

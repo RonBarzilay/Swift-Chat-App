@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:swift_chat/main.dart';
 import 'package:swift_chat/screens/chat_win.dart';
 
 import '../components/rounded_button.dart';
@@ -27,12 +28,13 @@ class _LoginWindowState extends State<LoginWindow> {
         return DefaultTextStyle(
           style: CupertinoTheme.of(context).textTheme.textStyle,
           child: CupertinoPageScaffold(
+            resizeToAvoidBottomInset: false,
             child: NestedScrollView(
               headerSliverBuilder:
                   (BuildContext context, bool innerBoxIsScrolled) {
                 return [
                   const CupertinoSliverNavigationBar(
-                    largeTitle: Text('Login'),
+                    largeTitle: Text('Log in'),
                   )
                 ];
               },
@@ -105,6 +107,7 @@ class _LoginWindowState extends State<LoginWindow> {
                               onPress: () async {
                                 setState(() {
                                   showSpinner = true;
+                                  startVibration(VibrationTypes.mediumImpact);
                                 });
 
                                 // Here we sign in user with _auth object.

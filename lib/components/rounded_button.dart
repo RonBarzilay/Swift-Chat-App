@@ -14,7 +14,7 @@ class RoundedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      elevation: 5.0,
+      elevation: 3.0,
       color: color,
       borderRadius: BorderRadius.circular(30.0),
       child: MaterialButton(
