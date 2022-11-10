@@ -18,7 +18,8 @@ class _ChatWindowState extends State<ChatWindow> {
   final _firestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
   late final User loggedInUser;
-  late String messageText;
+  late String messageText = '';
+  Color sendButtonColor = Colors.grey;
   final messageTextController = TextEditingController();
 
   // The Stream - snapshots()
@@ -49,86 +50,96 @@ class _ChatWindowState extends State<ChatWindow> {
 
   @override
   Widget build(BuildContext context) {
-    return Builder(
-      builder: (BuildContext context) {
-        return DefaultTextStyle(
-          style: CupertinoTheme.of(context).textTheme.textStyle,
-          child: CupertinoPageScaffold(
-            resizeToAvoidBottomInset: false,
-            child: NestedScrollView(
-              scrollDirection: Axis.vertical,
-              headerSliverBuilder:
-                  (BuildContext context, bool innerBoxIsScrolled) {
-                return [
-                  CupertinoSliverNavigationBar(
-                    largeTitle: const Text('Chat ⚡️'),
-                    trailing: Material(
-                      color: CupertinoTheme.of(context).barBackgroundColor,
-                      child: IconButton(
-                        icon: const Icon(Icons.close),
-                        onPressed: () {
-                          _auth.signOut();
-                          Navigator.popAndPushNamed(context, WelcomeWindow.id);
-                        },
-                      ),
-                    ),
-                  ),
-                ];
-              },
-              body: CupertinoPageScaffold(
-                child: SafeArea(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      MessageStream(currentUser: loggedInUser),
-                      Container(
-                        decoration: kMessageContainerDecoration,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: Material(
-                                borderRadius: BorderRadius.circular(32.0),
-                                color: Colors.blueGrey[100],
-                                elevation: 4.0,
-                                child: TextField(
-                                  controller: messageTextController,
-                                  onChanged: (value) {
-                                    messageText = value;
-                                  },
-                                  decoration: kMessageTextFieldDecoration,
-                                ),
-                              ),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                messageTextController.clear();
-                                startVibration(VibrationTypes.lightImpact);
-                                _firestore.collection('messages').add(
-                                  {
-                                    'text': messageText,
-                                    'sender': loggedInUser.email,
-                                    'date and time': DateTime.now().toString(),
-                                  },
-                                );
-                              },
-                              child: Text(
-                                'Send',
-                                style: kSendButtonTextStyle,
-                              ),
-                            ),
-                          ],
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Chat ⚡️'),
+        leading: Material(
+          color: Colors.blue,
+          child: IconButton(
+            icon: const Icon(Icons.close),
+            onPressed: () {
+              _auth.signOut();
+              Navigator.popAndPushNamed(context, WelcomeWindow.id);
+            },
+          ),
+        ),
+      ),
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            MessageStream(currentUser: loggedInUser),
+            Container(
+              padding: EdgeInsets.all(6),
+              color: Colors.grey.shade200,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Material(
+                        borderRadius: BorderRadius.circular(32.0),
+                        color: Colors.blueGrey[100],
+                        elevation: 4.0,
+                        child: TextField(
+                          controller: messageTextController,
+                          onChanged: (value) {
+                            if (value != '') {
+                              messageText = value;
+                              setState(() {
+                                sendButtonColor = Colors.blueAccent;
+                              });
+                            } else {
+                              messageText = value;
+                              setState(() {
+                                sendButtonColor = Colors.grey;
+                              });
+                            }
+                          },
+                          onEditingComplete: () {
+                            print('aaa');
+                          },
+                          decoration: kMessageTextFieldDecoration,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        messageTextController.clear();
+                        if (messageText != '') {
+                          startVibration(VibrationTypes.lightImpact);
+                          _firestore.collection('messages').add(
+                            {
+                              'text': messageText,
+                              'sender': loggedInUser.email,
+                              'date and time': DateTime.now().toString(),
+                            },
+                          );
+                          setState(() {
+                            sendButtonColor = Colors.grey;
+                          });
+                        } else {}
+                        messageText = '';
+                      },
+                      child: Text(
+                        'Send',
+                        style: TextStyle(
+                          color: sendButtonColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.0,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
-          ),
-        );
-      },
+          ],
+        ),
+      ),
     );
   }
 }
