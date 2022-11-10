@@ -1,6 +1,6 @@
 # swift_chat
 
-Swift Chat - an App for rapid chat conversation across iOS, Andriod & Web platforms.
+Swift Chat - Rapid chat conversation App. Compatible with iOS, Android & Web platforms.
 
 ## Getting Started
 

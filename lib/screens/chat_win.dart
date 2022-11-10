@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:swift_chat/components/message_stream.dart';
-import 'package:swift_chat/win/welcome_win.dart';
+import 'package:swift_chat/screens/welcome_win.dart';
 
+import '../components/message_stream.dart';
 import '../utils/constants.dart';
 
 class ChatWindow extends StatefulWidget {
@@ -16,28 +16,9 @@ class ChatWindow extends StatefulWidget {
 class _ChatWindowState extends State<ChatWindow> {
   final _firestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
-  User? loggedInUser;
+  late final User loggedInUser;
   late String messageText;
   final messageTextController = TextEditingController();
-
-  @override
-  void initState() {
-    getCurrentUser();
-    super.initState();
-  }
-
-  void getCurrentUser() async {
-    try {
-      // This function returns Future as it can take any amount of time.
-      final user = await _auth.currentUser;
-      if (user != null) {
-        loggedInUser = user;
-        print(loggedInUser?.email);
-      }
-    } catch (error) {
-      print(error);
-    }
-  }
 
   // The Stream - snapshots()
   // The Channel we subscribe to - _firestore.collection('messages')
@@ -49,6 +30,21 @@ class _ChatWindowState extends State<ChatWindow> {
   //     }
   //   }
   // }
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUser();
+  }
+
+  void getCurrentUser() async {
+    try {
+      // This function returns Future as it can take any amount of time.
+      loggedInUser = _auth.currentUser!;
+    } catch (error) {
+      print(error);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +78,7 @@ class _ChatWindowState extends State<ChatWindow> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      MessageStream(currentUserEmail: loggedInUser?.email),
+                      MessageStream(currentUser: loggedInUser),
                       Container(
                         decoration: kMessageContainerDecoration,
                         child: Row(
@@ -108,7 +104,8 @@ class _ChatWindowState extends State<ChatWindow> {
                                 _firestore.collection('messages').add(
                                   {
                                     'text': messageText,
-                                    'sender': loggedInUser?.email
+                                    'sender': loggedInUser.email,
+                                    'date and time': DateTime.now().toString(),
                                   },
                                 );
                               },

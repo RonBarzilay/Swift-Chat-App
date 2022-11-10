@@ -1,10 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:swift_chat/win/chat_win.dart';
-import 'package:swift_chat/win/login_win.dart';
-import 'package:swift_chat/win/registration_win.dart';
-import 'package:swift_chat/win/welcome_win.dart';
+import 'package:swift_chat/screens/chat_win.dart';
+import 'package:swift_chat/screens/login_win.dart';
+import 'package:swift_chat/screens/registration_win.dart';
+import 'package:swift_chat/screens/welcome_win.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

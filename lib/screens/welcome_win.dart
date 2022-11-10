@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../components/rounded_button.dart';
-import '../win/registration_win.dart';
+import '../screens/registration_win.dart';
 import 'login_win.dart';
 
 class WelcomeWindow extends StatefulWidget {

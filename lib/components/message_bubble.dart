@@ -4,8 +4,13 @@ class MessageBubble extends StatelessWidget {
   final String text;
   final String sender;
   final bool isMe;
+  final String dateTime;
   const MessageBubble(
-      {Key? key, required this.text, required this.sender, required this.isMe})
+      {Key? key,
+      required this.text,
+      required this.sender,
+      required this.isMe,
+      required this.dateTime})
       : super(key: key);
 
   @override

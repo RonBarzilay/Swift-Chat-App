@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import '../components/rounded_button.dart';
+import '../screens/chat_win.dart';
 import '../utils/constants.dart';
-import '../win/chat_win.dart';
 
 class RegistrationWindow extends StatefulWidget {
   static String id = 'registration_win';

@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:swift_chat/win/chat_win.dart';
+import 'package:swift_chat/screens/chat_win.dart';
 
 import '../components/rounded_button.dart';
 import '../utils/constants.dart';
@@ -42,7 +42,7 @@ class _LoginWindowState extends State<LoginWindow> {
                   dismissible: true,
                   inAsyncCall: showSpinner,
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 24.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -56,7 +56,7 @@ class _LoginWindowState extends State<LoginWindow> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 48.0,
                         ),
                         Material(
@@ -74,7 +74,7 @@ class _LoginWindowState extends State<LoginWindow> {
                             },
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 8.0,
                         ),
                         Material(
@@ -94,11 +94,11 @@ class _LoginWindowState extends State<LoginWindow> {
                             },
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 24.0,
                         ),
                         Padding(
-                          padding: EdgeInsets.symmetric(vertical: 16.0),
+                          padding: const EdgeInsets.symmetric(vertical: 16.0),
                           child: RoundedButton(
                               title: 'Log In',
                               color: Colors.lightBlueAccent,
