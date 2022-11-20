@@ -29,6 +29,13 @@
             {
               "client_id": "295678864449-k96qqosq0ig8rrjt68n3m7ik7113c6f5.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "295678864449-d3fmt1ut8hagaupdppoj9ttd9022137v.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ronbarzilay.swiftChat"
+              }
             }
           ]
         }

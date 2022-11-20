@@ -2,10 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:swift_chat/components/message_stream.dart';
-import 'package:swift_chat/win/welcome_win.dart';
+import 'package:swift_chat/components/message_bubble.dart';
+import 'package:swift_chat/screens/welcome_win.dart';
 
 import '../utils/constants.dart';
+
+final _firestore = FirebaseFirestore.instance;
+final _auth = FirebaseAuth.instance;
+User? loggedInUser;
 
 class ChatWindow extends StatefulWidget {
   static String id = 'chat_win';
@@ -14,9 +18,6 @@ class ChatWindow extends StatefulWidget {
 }
 
 class _ChatWindowState extends State<ChatWindow> {
-  final _firestore = FirebaseFirestore.instance;
-  final _auth = FirebaseAuth.instance;
-  User? loggedInUser;
   late String messageText;
   final messageTextController = TextEditingController();
 
@@ -82,7 +83,7 @@ class _ChatWindowState extends State<ChatWindow> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      MessageStream(currentUserEmail: loggedInUser?.email),
+                      MessageStream(),
                       Container(
                         decoration: kMessageContainerDecoration,
                         child: Row(
@@ -124,6 +125,48 @@ class _ChatWindowState extends State<ChatWindow> {
                   ),
                 ),
               ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class MessageStream extends StatelessWidget {
+  MessageStream({Key? key}) : super(key: key);
+  final _firestore = FirebaseFirestore.instance;
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: _firestore.collection('messages').snapshots(),
+      builder: (context, snapshots) {
+        if (!snapshots.hasData) {
+          return const Center(
+            child: CircularProgressIndicator(
+              color: Colors.lightBlue,
+            ),
+          );
+        }
+        final messages = snapshots.data?.docs.reversed;
+
+        List<MessageBubble> messageBubbles = [];
+        for (var message in messages!) {
+          final messageSender = message.get('sender');
+          final messageText = message.get('text');
+          final messageBubble = MessageBubble(
+              text: messageText,
+              sender: messageSender,
+              isMe: loggedInUser == messageSender);
+          messageBubbles.add(messageBubble);
+        }
+        return Expanded(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+            child: ListView(
+              reverse: true,
+              children: messageBubbles,
             ),
           ),
         );
